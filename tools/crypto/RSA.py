@@ -64,31 +64,22 @@ def lcm(x, y):
 
 class Main(Tool):
 	title = "RSA"
-	p = Variable()
-	q = Variable()
+
+	p = Variable("number")
+	q = Variable("number")
+	n = Variable("number")
+	t = Variable("number")
+	e = Variable("number")
+	d = Variable("number")
+
+	cipher = Variable("number")
+	cipher_text = Variable("string")
+
+	message = Variable("number")
+	message_text = Variable("string")
 
 	@Function
-	def go(self):
-		pass
-	
-'''	title = "RSA"
-
-	p = Var("n")
-	q = Var("n")
-	n = Var("n")
-	t = Var("n")
-	e = Var("n")
-	d = Var("n")
-
-	cipher = Var("n")
-	cipher_text = Var("s")
-
-	message = Var("n")
-	message_text = Var("s")
-
-	def main(self):
-		text = ""
-
+	def calculate(self):
 		while True:
 			if self.p and self.q and not self.n:
 				self.n = self.p * self.q
@@ -106,26 +97,14 @@ class Main(Tool):
 				self.message = powermod(self.cipher, self.d, self.n)
 			elif self.cipher and self.d and self.n and not self.message and (powermod(nthRoot(self.cipher, self.d), self.d, self.n) == self.cipher):
 				self.message = nthRoot(self.cipher, self.d)
+			
 			elif self.cipher and not self.cipher_text:
 				self.cipher_text = textify(self.cipher)
 			elif self.message and not self.message_text:
 				self.message_text = textify(self.message)
+			
 			else:
 				break
-
-		text += "p = %s\n" % self.p
-		text += "q = %s\n" % self.q
-		text += "n = %s\n" % self.n
-		text += "t = %s\n" % self.t
-		text += "e = %s\n" % self.e
-		text += "d = %s\n" % self.d
-
-		text += "cipher = %s\n" % self.cipher
-		text += "message = %s\n" % self.message
-		text += "cipher text = %s\n" % self.cipher_text
-		text += "message text = %s\n" % self.message_text
-
-		return text'''
 
 if __name__ == "__main__":
 	Main()

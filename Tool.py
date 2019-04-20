@@ -10,15 +10,33 @@ def id():
 	return i
 
 class Variable():
-	i = id()
+	def __init__(self, t = "string"):
+		self.type = t
+		self.i = id()
 
 	def setUp(self, tool, name):
 		self.name = name
 
+		self.value = tk.StringVar()
+
 		label = tk.LabelFrame(tool.frame, text=name.replace("_"," "))
 		label.grid(row=self.i, column=0)
-		entry = tk.Entry(label, width=25)
+		entry = tk.Entry(label, textvariable=self.value, width=25)
 		entry.pack(padx=2, pady=2)
+
+	def get(self):
+		value = self.value.get()
+
+		if value == "":
+			return None
+
+		if self.type == "number":
+			return int(value)
+
+		return value
+
+	def set(self, value):
+		return self.value.set(value)
 
 def Function(func):
 	setattr(func, "ui_func", id())
@@ -52,6 +70,7 @@ class Tool():
 			if isinstance(value, Variable):
 				self.variables[key] = value
 				self.variables[key].setUp(self, key)
+				delattr(self.__class__, key)
 
 			if hasattr(value, "ui_func"):
 				self.i += 1
@@ -60,8 +79,13 @@ class Tool():
 		self.root.mainloop()
 
 	def __getattr__(self, name):
-		return self.__dict__[name]
+		if name in self.variables.keys():
+			return self.variables[name].get()
+		else:
+			return self.__dict__[name]
 
 	def __setattr__(self, name, value):
-
-		self.__dict__[name] = value
+		if name in self.variables.keys():
+			self.variables[name].set(value)
+		else:
+			self.__dict__[name] = value
