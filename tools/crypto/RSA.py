@@ -81,16 +81,23 @@ class Main(Tool):
 	@Function
 	def calculate(self):
 		while True:
+			# calculate p, q and n
 			if self.p and self.q and not self.n:
 				self.n = self.p * self.q
 			elif self.p and self.n and not self.q:
 				self.q = self.n / self.p
 			elif self.q and self.n and not self.p:
 				self.p = self.n / self.q
+
+			# calculate t
 			elif self.p and self.q and not self.t:
-				self.t = lcm(self.p - 1, self.q - 1)
+				self.t = (self.p - 1) * (self.q - 1) #lcm(self.p - 1, self.q - 1)
+			
+			# calculate d
 			elif self.e and self.n and not self.d:
-				self.d = modinv(self.e, self.n)
+				self.d = modinv(self.e, self.t)
+
+			# calculate message and cipher
 			elif self.message and self.e and self.n and not self.cipher:
 				self.cipher = powermod(self.message, self.e, self.n)
 			elif self.cipher and self.d and self.n and not self.message:
@@ -98,6 +105,7 @@ class Main(Tool):
 			elif self.cipher and self.d and self.n and not self.message and (powermod(nthRoot(self.cipher, self.d), self.d, self.n) == self.cipher):
 				self.message = nthRoot(self.cipher, self.d)
 			
+			# change formate
 			elif self.cipher and not self.cipher_text:
 				self.cipher_text = textify(self.cipher)
 			elif self.message and not self.message_text:
