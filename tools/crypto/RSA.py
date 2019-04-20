@@ -1,4 +1,4 @@
-from Tool import Tool, Var, Alert
+from Tool import Tool, Variable, Function, Alert
 import binascii
 
 def gcd(a, b):
@@ -36,7 +36,7 @@ def egcd(a, b):
         return g, x - (b // a) * y, y
 
 def modinv(a, m):
-    g, x, y = egcd(a, m)
+    (g, x, y) = egcd(a, m)
     if g != 1:
         Alert('modular inverse does not exist')
     else:
@@ -62,10 +62,16 @@ def lcm(x, y):
 
    return lcm
 
-#
-
-class RSA(Tool):
+class Main(Tool):
 	title = "RSA"
+	p = Variable()
+	q = Variable()
+
+	@Function
+	def go(self):
+		pass
+	
+'''	title = "RSA"
 
 	p = Var("n")
 	q = Var("n")
@@ -119,7 +125,7 @@ class RSA(Tool):
 		text += "cipher text = %s\n" % self.cipher_text
 		text += "message text = %s\n" % self.message_text
 
-		return text
+		return text'''
 
 if __name__ == "__main__":
-	RSA()
+	Main()
