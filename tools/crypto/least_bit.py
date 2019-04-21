@@ -22,6 +22,7 @@ class Main(Tool):
                 bytess = [chr(int(bits[i:i+8], 2)) for i in range(0, len(bits), 8)]
                 lsbstr = "".join(bytess)
 
-                match = re.search(self.match, lsbstr).group(0)
+
+                match = re.search(self.match, lsbstr)
                 if match:
-                    self.output = match
+                    self.output = match.group(0)

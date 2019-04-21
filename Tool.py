@@ -25,11 +25,12 @@ class Variable():
 		if self.type == "file":
 			button = tk.Button(label, text="find file", command=self.setFilePath)
 			button.pack(padx=2, pady=2)
-			#self.value.set("")
 		if self.type == "directory":
 			button = tk.Button(label, text="find directory", command=self.setDirPath)
 			button.pack(padx=2, pady=2)
-			#self.value.set("")
+		if self.type == "equation":
+			entry = tk.Entry(label, textvariable=self.value, width=25)
+			entry.pack(padx=2, pady=2)
 		
 		entry = tk.Entry(label, textvariable=self.value, width=25)
 		entry.pack(padx=2, pady=2)
@@ -47,11 +48,15 @@ class Variable():
 			return None
 
 		if self.type == "number":
-			return float(value)
+			f = float(value)
+			return int(value) if f == math.floor(f) else f
 
 		return value
 
 	def set(self, value):
+		if self.type == "number":
+			value = int(value) if value == math.floor(value) else value
+
 		return self.value.set(value)
 
 def Function(func):
@@ -59,8 +64,8 @@ def Function(func):
 
 	return func
 
-class Alert():
-	pass
+def Alert(val):
+	messagebox.showwarning("problem", val)
 
 class Tool():
 	title = "default title"
@@ -86,6 +91,7 @@ class Tool():
 			if isinstance(value, Variable):
 				self.variables[key] = value
 				self.variables[key].setUp(self, key)
+				delattr(self.__class__, key)
 			
 			if hasattr(value, "ui_func"):
 				self.i += 1
