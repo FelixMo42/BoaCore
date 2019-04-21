@@ -59,6 +59,7 @@ class Tool():
 
 		# setup ui frame
 		self.root = tk.Toplevel()
+		self.root.title(self.title)
 		self.frame = tk.Frame(self.root)
 		self.frame.grid(column=0, row=0, sticky=(tk.N,tk.W,tk.E,tk.S))
 		self.frame.columnconfigure(0, weight=1)

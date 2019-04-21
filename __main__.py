@@ -5,6 +5,7 @@ import os
 class BaseApp():
 	def __init__(self):
 		self.root = tk.Tk()
+		self.root.title("Boa Core")
 		self.frame = tk.Frame(self.root)
 		self.frame.grid(column=0, row=0, sticky=(tk.N,tk.W,tk.E,tk.S))
 		self.frame.columnconfigure(0, weight=1)
@@ -13,26 +14,42 @@ class BaseApp():
 
 		i = 1
 		for module in os.listdir("tools"):
-			tk.Button(self.frame, text=module, command=self.setModule(module)).grid(row=i, column=0)
+			tk.Button(
+				self.frame,
+				text=module,
+				command=self.setModule(module, i),
+				width=10
+			).grid(row=i, column=0)
+			if module == "core":
+				self.setModule(module, i)()
 			i += 1
 
+		tk.Label(self.frame, text="modules").grid(row=0, column=0)
+		tk.Label(self.frame, text="tools").grid(row=0, column=2)
+	
 		self.root.mainloop()
 
 	def clearModule(self):
 		for element in self.frame.grid_slaves():
-			if int(element.grid_info()["column"]) > 0:
+			if int(element.grid_info()["column"]) > 0 and int(element.grid_info()["row"]) > 0:
 				element.grid_forget()
 
-	def setModule(self, module):
+	def setModule(self, module, pos):
 		def callback():
 			self.clearModule()
 			self.module = module
+			tk.Label(self.frame, text=">").grid(row=pos, column=1)
 			i = 1
 			for file in os.listdir("tools/" + module):
 				if file == "__pycache__":
 					continue
 				tool = file.replace(".py", "")
-				tk.Button(self.frame, text=tool, command=self.run(tool)).grid(row=i, column=1)
+				tk.Button(
+					self.frame,
+					text=tool.replace("_", " "),
+					command=self.run(tool),
+					width=10
+				).grid(row=i, column=2)
 				i += 1
 
 		return callback
