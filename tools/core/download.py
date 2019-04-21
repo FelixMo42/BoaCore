@@ -2,6 +2,7 @@ from Tool import Alert
 import tkinter as tk
 import requests
 import json
+import os
 
 class Main():
     def __init__(self):
@@ -67,6 +68,10 @@ class Main():
     def downloadTool(self, user, tool):
         def downloadIt():
             response = requests.get("https://boa-core.herokuapp.com/api/file/{}/{}".format(user, tool))
+
+            directory = "tools/{}".format(user)
+            if not os.path.exists(directory):
+                os.makedirs(directory)
 
             with open("tools/{}/{}.py".format(user, tool), "w") as file:
                 file.write(response.content.decode("utf-8"))
