@@ -4,7 +4,7 @@ import os
 
 class Main(Tool):
     filetype = Variable("string")
-    root_directory = Variable("string")
+    root_directory = Variable("directory")
 
     @Function
     def clear(self):

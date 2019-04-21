@@ -22,8 +22,21 @@ class Variable():
 
 		label = tk.LabelFrame(tool.frame, text=name.replace("_"," "))
 		label.grid(row=self.i, column=0)
+
+		if self.type == "file":
+			button = tk.Button(label, text="find file", command=self.setPath)
+			button.pack(padx=2, pady=2)
+			#self.value.set("")
+		if self.type == "directory":
+			button = tk.Button(label, text="find directory", command=self.setPath)
+			button.pack(padx=2, pady=2)
+			#self.value.set("")
+		
 		entry = tk.Entry(label, textvariable=self.value, width=25)
 		entry.pack(padx=2, pady=2)
+
+	def setPath(self):
+		self.value.set(askopenfilename())
 
 	def get(self):
 		value = self.value.get()
