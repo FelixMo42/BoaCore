@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-from tkinter.filedialog import askopenfilename
+from tkinter.filedialog import askopenfilename, askdirectory
 import types
 import math
 
@@ -17,26 +17,28 @@ class Variable():
 
 	def setUp(self, tool, name):
 		self.name = name
-
 		self.value = tk.StringVar()
 
 		label = tk.LabelFrame(tool.frame, text=name.replace("_"," "))
 		label.grid(row=self.i, column=0)
 
 		if self.type == "file":
-			button = tk.Button(label, text="find file", command=self.setPath)
+			button = tk.Button(label, text="find file", command=self.setFilePath)
 			button.pack(padx=2, pady=2)
 			#self.value.set("")
 		if self.type == "directory":
-			button = tk.Button(label, text="find directory", command=self.setPath)
+			button = tk.Button(label, text="find directory", command=self.setDirPath)
 			button.pack(padx=2, pady=2)
 			#self.value.set("")
 		
 		entry = tk.Entry(label, textvariable=self.value, width=25)
 		entry.pack(padx=2, pady=2)
 
-	def setPath(self):
+	def setFilePath(self):
 		self.value.set(askopenfilename())
+
+	def setDirPath(self):
+		self.value.set(askdirectory())
 
 	def get(self):
 		value = self.value.get()
@@ -69,7 +71,6 @@ class Tool():
 	frame = None
 
 	def __init__(self):	
-
 		# setup ui frame
 		self.root = tk.Toplevel()
 		self.root.title(self.title)
@@ -85,8 +86,7 @@ class Tool():
 			if isinstance(value, Variable):
 				self.variables[key] = value
 				self.variables[key].setUp(self, key)
-				delattr(self.__class__, key)
-
+			
 			if hasattr(value, "ui_func"):
 				self.i += 1
 				tk.Button(self.frame, text=key, command=value).grid(row=getattr(value, "ui_func"), column=0)
