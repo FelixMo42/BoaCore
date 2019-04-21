@@ -5,7 +5,7 @@ import os
 class BaseApp():
 	def __init__(self):
 		self.root = tk.Tk()
-		self.root.title("Boa Core")
+		self.root.title("BoaCore")
 		self.frame = tk.Frame(self.root)
 		self.frame.grid(column=0, row=0, sticky=(tk.N,tk.W,tk.E,tk.S))
 		self.frame.columnconfigure(0, weight=1)
