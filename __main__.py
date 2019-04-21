@@ -1,4 +1,5 @@
 import tkinter as tk
+from importlib import reload
 import pydoc
 import os
 
@@ -55,6 +56,8 @@ class BaseApp():
 		return callback
 
 	def run(self, tool):
+		mod = pydoc.locate("tools.{}.{}".format(self.module, tool))
+		reload(mod)
 		return lambda: pydoc.locate("tools.{}.{}.Main".format(self.module, tool))()
 
 if __name__ == "__main__":

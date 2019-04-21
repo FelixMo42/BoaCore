@@ -1,4 +1,7 @@
 from Tool import Tool
 
-class Main(Tool):
-    pass
+def Main():
+    class Main(Tool):
+        pass
+
+    return Main()

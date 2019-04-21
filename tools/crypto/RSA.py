@@ -62,57 +62,60 @@ def lcm(x, y):
 
    return lcm
 
-class Main(Tool):
-	title = "RSA"
+def Main():
+	class Main(Tool):
+		title = "RSA"
 
-	p = Variable("number")
-	q = Variable("number")
-	n = Variable("number")
-	t = Variable("number")
-	e = Variable("number")
-	d = Variable("number")
+		p = Variable("number")
+		q = Variable("number")
+		n = Variable("number")
+		t = Variable("number")
+		e = Variable("number")
+		d = Variable("number")
 
-	cipher = Variable("number")
-	cipher_text = Variable("string")
+		cipher = Variable("number")
+		cipher_text = Variable("string")
 
-	message = Variable("number")
-	message_text = Variable("string")
+		message = Variable("number")
+		message_text = Variable("string")
 
-	@Function
-	def calculate(self):
-		while True:
-			# calculate p, q and n
-			if self.p and self.q and not self.n:
-				self.n = self.p * self.q
-			elif self.p and self.n and not self.q:
-				self.q = self.n / self.p
-			elif self.q and self.n and not self.p:
-				self.p = self.n / self.q
+		@Function
+		def calculate(self):
+			while True:
+				# calculate p, q and n
+				if self.p and self.q and not self.n:
+					self.n = self.p * self.q
+				elif self.p and self.n and not self.q:
+					self.q = self.n / self.p
+				elif self.q and self.n and not self.p:
+					self.p = self.n / self.q
 
-			# calculate t
-			elif self.p and self.q and not self.t:
-				self.t = (self.p - 1) * (self.q - 1) #lcm(self.p - 1, self.q - 1)
-			
-			# calculate d
-			elif self.e and self.n and not self.d:
-				self.d = modinv(self.e, self.t)
+				# calculate t
+				elif self.p and self.q and not self.t:
+					self.t = (self.p - 1) * (self.q - 1) #lcm(self.p - 1, self.q - 1)
+				
+				# calculate d
+				elif self.e and self.n and not self.d:
+					self.d = modinv(self.e, self.t)
 
-			# calculate message and cipher
-			elif self.message and self.e and self.n and not self.cipher:
-				self.cipher = powermod(self.message, self.e, self.n)
-			elif self.cipher and self.d and self.n and not self.message:
-				self.message = powermod(self.cipher, self.d, self.n)
-			elif self.cipher and self.d and self.n and not self.message and (powermod(nthRoot(self.cipher, self.d), self.d, self.n) == self.cipher):
-				self.message = nthRoot(self.cipher, self.d)
-			
-			# change formate
-			elif self.cipher and not self.cipher_text:
-				self.cipher_text = textify(self.cipher)
-			elif self.message and not self.message_text:
-				self.message_text = textify(self.message)
-			
-			else:
-				break
+				# calculate message and cipher
+				elif self.message and self.e and self.n and not self.cipher:
+					self.cipher = powermod(self.message, self.e, self.n)
+				elif self.cipher and self.d and self.n and not self.message:
+					self.message = powermod(self.cipher, self.d, self.n)
+				elif self.cipher and self.d and self.n and not self.message and (powermod(nthRoot(self.cipher, self.d), self.d, self.n) == self.cipher):
+					self.message = nthRoot(self.cipher, self.d)
+				
+				# change formate
+				elif self.cipher and not self.cipher_text:
+					self.cipher_text = textify(self.cipher)
+				elif self.message and not self.message_text:
+					self.message_text = textify(self.message)
+				
+				else:
+					break
+
+	return Main()
 
 if __name__ == "__main__":
 	Main()
