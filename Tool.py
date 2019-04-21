@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter.filedialog import askopenfilename
 import types
+import math
 
 i = 0
 def id():
@@ -31,7 +32,7 @@ class Variable():
 			return None
 
 		if self.type == "number":
-			return int(value)
+			return float(value)
 
 		return value
 
